@@ -5,6 +5,3 @@ builder = "NIXPACKS"
 healthcheckPath = "/"
 healthcheckTimeout = 30
 restartPolicyType = "ON_FAILURE"
-
-[[services]]
-internalPort = 8080
