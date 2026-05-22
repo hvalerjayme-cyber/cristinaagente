@@ -17,7 +17,9 @@ from agent.brain import generar_respuesta
 from agent.memory import inicializar_db, guardar_mensaje, obtener_historial
 from agent.providers import obtener_proveedor
 
-load_dotenv()
+from pathlib import Path
+_env_path = Path(__file__).parent.parent / ".env"
+load_dotenv(dotenv_path=_env_path, encoding="utf-8", override=True)
 
 # Configuración de logging según entorno
 ENVIRONMENT = os.getenv("ENVIRONMENT", "development")
@@ -28,17 +30,19 @@ logging.basicConfig(
 )
 logger = logging.getLogger("agentkit")
 
-# Proveedor de WhatsApp (configurado en .env con WHATSAPP_PROVIDER)
-proveedor = obtener_proveedor()
+# Proveedor de WhatsApp — se inicializa en lifespan para leer env vars de Railway
+proveedor = None
 PORT = int(os.getenv("PORT", 8000))
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    """Inicializa la base de datos al arrancar el servidor."""
+    """Inicializa DB y proveedor al arrancar el servidor."""
+    global proveedor
+    proveedor = obtener_proveedor()
     await inicializar_db()
     logger.info("Base de datos inicializada correctamente")
-    logger.info(f"Servidor Cristina (Limpia Todo Perú) corriendo en puerto {PORT}")
+    logger.info(f"Servidor Cristina (Limpia Todo Peru) corriendo en puerto {PORT}")
     logger.info(f"Proveedor de WhatsApp: {proveedor.__class__.__name__}")
     logger.info(f"Entorno: {ENVIRONMENT}")
     yield
