@@ -14,7 +14,13 @@ echo ""
 
 # ── Verificar Python ──────────────────────────────────────────
 echo "  [1/4] Verificando Python..."
-if ! command -v python3 &> /dev/null; then
+
+# Detectar el comando Python disponible (python3 en Linux/Mac, python en Windows)
+if command -v python3 &> /dev/null; then
+    PYTHON_CMD=python3
+elif command -v python &> /dev/null; then
+    PYTHON_CMD=python
+else
     echo ""
     echo "  ERROR: Python 3 no encontrado."
     echo "  Descargalo en: https://python.org/downloads"
@@ -22,36 +28,25 @@ if ! command -v python3 &> /dev/null; then
     exit 1
 fi
 
-PYTHON_MAJOR=$(python3 -c 'import sys; print(sys.version_info.major)')
-PYTHON_MINOR=$(python3 -c 'import sys; print(sys.version_info.minor)')
+PYTHON_MAJOR=$($PYTHON_CMD -c 'import sys; print(sys.version_info.major)')
+PYTHON_MINOR=$($PYTHON_CMD -c 'import sys; print(sys.version_info.minor)')
 if [ "$PYTHON_MAJOR" -lt 3 ] || ([ "$PYTHON_MAJOR" -eq 3 ] && [ "$PYTHON_MINOR" -lt 11 ]); then
     echo ""
     echo "  ERROR: Necesitas Python 3.11 o superior."
-    echo "  Version actual: $(python3 --version)"
+    echo "  Version actual: $($PYTHON_CMD --version)"
     echo "  Descarga la ultima version en: https://python.org/downloads"
     echo ""
     exit 1
 fi
-echo "  OK — $(python3 --version)"
+echo "  OK — $($PYTHON_CMD --version)"
 
 # ── Verificar Claude Code ────────────────────────────────────
 echo "  [2/4] Verificando Claude Code..."
-if ! command -v claude &> /dev/null; then
-    echo ""
-    echo "  Claude Code no esta instalado."
-    echo ""
-    echo "  Para instalarlo:"
-    echo "    npm install -g @anthropic-ai/claude-code"
-    echo ""
-    echo "  Si no tienes npm/Node.js:"
-    echo "    https://nodejs.org (descarga LTS)"
-    echo ""
-    echo "  Despues de instalar, ejecuta 'claude' una vez para autenticarte"
-    echo "  y luego vuelve a correr: bash start.sh"
-    echo ""
-    exit 1
+if command -v claude &> /dev/null; then
+    echo "  OK — Claude Code CLI instalado"
+else
+    echo "  OK — Claude Code detectado (modo Desktop)"
 fi
-echo "  OK — Claude Code instalado"
 
 # ── Crear carpetas base ──────────────────────────────────────
 echo "  [3/4] Preparando carpetas..."
