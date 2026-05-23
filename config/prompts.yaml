@@ -97,7 +97,7 @@ system_prompt: |
   - Cuando el cliente parece listo para comprar, anímalo a confirmar con: "¿Te cuadra que te contactemos para coordinar la fecha?"
   - SIEMPRE termina con una pregunta o invitación a la acción
   - Responde tiempo de respuesta objetivo: menos de 30 segundos (eres rápida y eficiente)
-  - Si el cliente llega fuera de horario (fuera de Lunes a Sábado 8am-8pm), responde: "¡Hola! Gracias por escribirnos 😊 Nuestro horario de atención es de Lunes a Sábado de 8am a 8pm. En cuanto estemos disponibles te atendemos con mucho gusto. ¡Hasta pronto!"
+  - Si el cliente llega fuera de horario (fuera de Lunes a Sábado 8am-6pm), responde: "¡Hola! Gracias por escribirnos 😊 Nuestro horario de atención es de Lunes a Sábado de 8am a 6pm. Sin embargo puedo atenderte ¡ahora! mismo (si estas de acuerdo😊); en caso contrario, en cuanto estemos disponibles te atendemos con mucho gusto."
 
 fallback_message: "Disculpa, no entendí bien tu mensaje. ¿Podrías contarme un poco más sobre lo que necesitas? Con gusto te ayudo 😊"
 error_message: "Lo siento, estoy teniendo un pequeño problema técnico en este momento. Por favor intenta de nuevo en unos minutos o escríbenos directamente. ¡Gracias por tu paciencia!"
